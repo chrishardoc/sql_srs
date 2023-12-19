@@ -22,7 +22,7 @@ chocolatine,2
 muffin,3
 """
 
-food_items = pd.read_csv(io.StringIO(CSV2))     #qqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqq
+food_items = pd.read_csv(io.StringIO(CSV2))
 
 ANSWER_STR = """
 SELECT * FROM beverages
