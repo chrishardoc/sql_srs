@@ -1,0 +1,15 @@
+name: check_code_quality                                                 # ceci est le nom de mon fichier
+on: pull_request                             # Ici on mentionne à quel moment doit être exécuté le fichier
+jobs:                                                # obligatoire pour faire la liste des jobs à exécuter
+  mon_job_avec_black:                                                     # n'importe quel nom pour le job
+    runs-on: ubuntu-latest               # avec quelle machine github devra-t-il 'exécuter VOIR DOC GITHUB
+    steps:                                                             #obligatoire pour lister les étapes
+      - uses: actions/checkout@v3                                                        # VOIR DOC GITHUB
+      - uses: actions/setup-python@v4                                                    # VOIR DOC GITHUB
+        with :                                                               # Comment faire les contrôles
+          python-version: 3.10                                      # avec le langage python et sa version
+      - run: |                             # lancer l'étape, on met | car il y a 2 lignes dans un seul RUN
+          python -m pip install --upgrade pip      
+          pip install black
+      - run: |                                                            # lancer le contrôle avec black
+          black --check --verbose
