@@ -2,4 +2,6 @@
 venv/
 
 *.csv
+provisoire.py
+test_db.py
 
