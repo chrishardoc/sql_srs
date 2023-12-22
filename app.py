@@ -1,23 +1,20 @@
 # pylint: disable = missing-module-docstring
-
+import io
+import ast
 import duckdb
+import pandas as pd
 import streamlit as st
 
-import duckdb
+#from init_db import beverages
 
-con = duckdb.connect(database = "data/exercices_sql_tables.duckdb", read_only=False)
+con = duckdb.connect(database="data/exercices_sql_tables.duckdb", read_only=False)
 
-# ANSWER_STR = """
-# SELECT * FROM beverages
-# CROSS JOIN food_items
-# """
-#
 # solution_df = duckdb.sql(ANSWER_STR).df()
 
 with st.sidebar:
     theme = st.selectbox(
         "What would you like to review?",
-        ("cross_joins", "GroupBy", "Windows Functions"),
+        ("cross_joins", "GroupBy", "windows_functions"),
         index=None,
         placeholder="Select a theme...",
     )
@@ -29,9 +26,9 @@ with st.sidebar:
 
 st.header("enter your code")
 query = st.text_area(label="votre code SQL ici", key="user_input")
-# if query:
-#     result = duckdb.sql(query).df()
-#     st.dataframe(result)
+if query:
+    result = con.execute(query).df()
+    st.dataframe(result)
 #
 #     # if len(result.columns) != len(     #comparaison du nombre de colonnes avec celui attendu
 #     #    solution_df.columns
@@ -55,15 +52,18 @@ query = st.text_area(label="votre code SQL ici", key="user_input")
 #         )
 #
 #
-# tab2, tab3 = st.tabs(["Tables", "Solutions"])
-#
-# with tab2:
-#     st.write("table : beverages")
-#     st.dataframe(beverages)
-#     st.write("table : food_items")
-#     st.dataframe(food_items)
-#     st.write("expected")
-#     st.dataframe(solution_df)
-#
-# with tab3:
-#     st.write(ANSWER_STR)
+tab2, tab3 = st.tabs(["Tables", "Solution"])
+
+with tab2:
+    exercice_tables = ast.literal_eval(exercice.loc[0,"tables"])
+    for table in exercice_tables:
+        st.write(f"table: {table}")
+        df_table=con.execute(f"SELECT * FROM {table}").df()
+        st.dataframe(df_table)
+
+with tab3:
+    exercice_name = exercice.loc[0, "exercice_name"]
+    with open(f"answers/{exercice_name}.sql", "r") as f:
+        answer = f.read()
+    st.write(answer)
+

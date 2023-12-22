@@ -7,22 +7,23 @@ import pandas as pd
 
 con = duckdb.connect(database = "data/exercices_sql_tables.duckdb", read_only=False)
 
+
 # --------------------------------------------------------------
-# EXERCICES LIST
+# EXERCISES LIST
 # --------------------------------------------------------------
 
 data = {
     "theme": ["cross_joins","windows_functions"],
-    "exercise_name": ["beverage_and_food","simple_window"],
+    "exercice_name": ["beverages_and_food","simple_window"],
     "tables": [["beverages", "food_items"],"simple_window"],
-    "Last_review": ["1970-01-01", "1970-01-01"]
+    "Last_review": ["1970-01-01", "1970-01-01"],
 }
 memory_state_df = pd.DataFrame(data)
 con.execute("CREATE TABLE IF NOT EXISTS memory_state AS SELECT * FROM memory_state_df")
 
 
 # --------------------------------------------------------------
-# CROSS JOIN EXERCICES
+# CROSS JOIN EXERCISES
 # --------------------------------------------------------------
 
 CSV = """
